@@ -20,6 +20,7 @@ pub use partial_mem_storage::PartialMemStorage;
 #[cfg(feature = "fs-store")]
 mod mem_or_file;
 #[cfg(feature = "fs-store")]
+#[cfg_attr(iroh_blobs_docsrs, doc(cfg(feature = "fs-store")))]
 pub use mem_or_file::{FixedSize, MemOrFile};
 
 /// A named, persistent tag.
@@ -151,7 +152,7 @@ impl<T: RangeSetEntry + Clone> RangeSetExt<T> for RangeSetRef<T> {
         let boundaries = self.boundaries();
         if boundaries.is_empty() {
             Some(RangeSetEntry::min_value())
-        } else if boundaries.len() % 2 == 0 {
+        } else if boundaries.len().is_multiple_of(2) {
             Some(boundaries[boundaries.len() - 1].clone())
         } else {
             None
